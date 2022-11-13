@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.ship.engr.communication.handlers.FirstObjectToSendHandlerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-11-13T00:26:45" hostname="DESKTOP-UQPGSUT" time="0.359">
+  <properties/>
+  <testcase name="queuesResponse()" classname="edu.ship.engr.communication.handlers.FirstObjectToSendHandlerTest" time="0.359"/>
+  <system-out><![CDATA[Received first message FirstMessage{magicNumber=55, magicNumber2=77}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
