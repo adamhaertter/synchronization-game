@@ -25,10 +25,10 @@ public class MessageHandlerSet
 
     private final HandlerMapping[] handlerMappings =
             {new HandlerMapping(Class.forName("edu.ship.engr.messages" +
-                    ".FirstMessage"),
+                    ".FirstObjectToSend"),
                     new FirstObjectToSendHandler()),
                     new HandlerMapping(Class.forName("edu.ship.engr.messages" +
-                            ".FirstMessageReply"
+                            ".ReplyObject"
                     ), new ReplyObjectHandler()),
             };
 
