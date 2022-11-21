@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import display.GUI;
+import edu.ship.engr.display.GUI;
 import edu.ship.engr.communication.ConnectionManager;
 import edu.ship.engr.communication.MessageAccumulator;
 import edu.ship.engr.messages.FirstObjectToSend;
@@ -16,13 +16,17 @@ import javax.swing.*;
 public class PlayRunner
 {
     public static MessageAccumulator messageAccumulator  =
-        new MessageAccumulator();;
+        new MessageAccumulator();
+
+    public static boolean IS_HOST;
 
     public static void main(String[] args)
             throws IOException, ClassNotFoundException
     {
 
         System.out.println("RUNNING");
+
+        IS_HOST = isHost(args);
 
         GUI gui = new GUI();
         gui.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -31,7 +35,7 @@ public class PlayRunner
         gui.setVisible(true);
 
         Socket socket;
-        if (isHost(args))
+        if (IS_HOST)
         {
             try (ServerSocket serverSocket = new ServerSocket(4242, 10))
             {
@@ -44,8 +48,10 @@ public class PlayRunner
         }
 
         new ConnectionManager(socket, messageAccumulator);
-        if (isHost(args))
+        if (IS_HOST)
         {
+            // add player to board. else condition if not host is for adding second player to board and sending the join message to the host
+            // after host recieves, sends a response back with his own join message
             System.out.println("Sending msg");
             FirstObjectToSend x = new FirstObjectToSend(42, 59);
             messageAccumulator.queueMessage(new Message<>(x));
