@@ -1,13 +1,17 @@
 package edu.ship.engr.peertopeer;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import display.GUI;
 import edu.ship.engr.communication.ConnectionManager;
 import edu.ship.engr.communication.MessageAccumulator;
 import edu.ship.engr.messages.FirstObjectToSend;
 import edu.ship.engr.messages.Message;
+
+import javax.swing.*;
 
 public class PlayRunner
 {
@@ -19,6 +23,13 @@ public class PlayRunner
     {
 
         System.out.println("RUNNING");
+
+        GUI gui = new GUI();
+        gui.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        gui.setPreferredSize(new Dimension(400, 800));
+        gui.pack();
+        gui.setVisible(true);
+
         Socket socket;
         if (isHost(args))
         {
