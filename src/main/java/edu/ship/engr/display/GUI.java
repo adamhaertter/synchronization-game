@@ -70,6 +70,11 @@ public class GUI extends JFrame implements ActionListener
 		this.playerOne = board.getPlayerOne();
 		this.playerTwo = board.getPlayerTwo();
 
+		// First logic
+		StringBuffer boardString = new StringBuffer(board.toString());
+		putPlayersOnTheScreen(boardString);
+		boardBox.setText(boardString.toString());
+
 		if (PlayRunner.IS_HOST) {
 			myPlayer = playerOne;
 		} else {
@@ -94,8 +99,8 @@ public class GUI extends JFrame implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		//player.calculateUpcomingMove();
-
+		System.out.println("Action performed! Now at (" + myPlayer.getX() +" , " + myPlayer.getY() + ") and next (" +
+				myPlayer.getNextX() + ", " + myPlayer.getNextY() + ").");
 		calcMoveForPlayer(this.myPlayer);
 
 		// here you should create the string that is the entire display (with \n
@@ -120,6 +125,8 @@ public class GUI extends JFrame implements ActionListener
 			}
 			//TODO get the item off the board
 			board.markVisibleAround(player.getX(), player.getY());
+		} else {
+			player.remainInPlace();
 		}
 	}
 

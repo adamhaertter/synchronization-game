@@ -19,6 +19,7 @@ public class Player {
     public Player(int startingX, int startingY) {
         yPos = startingY;
         xPos = startingX;
+        remainInPlace();
     }
 
     public void move() {
@@ -49,6 +50,11 @@ public class Player {
         } else if (direction == Direction.Left) {
             xPosNext = xPos - 1;
         }
+    }
+
+    public void remainInPlace() {
+        xPosNext = xPos;
+        yPosNext = yPos;
     }
 
     public void addToInventory(Item x) {
