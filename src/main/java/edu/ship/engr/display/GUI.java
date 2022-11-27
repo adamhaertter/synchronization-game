@@ -15,9 +15,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
-import javax.swing.Timer;
+import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
 /**
@@ -108,6 +106,7 @@ public class GUI extends JFrame implements ActionListener
 		// use board.setText to send that string to the display
 		StringBuffer boardString = new StringBuffer(board.toString());
 		putPlayersOnTheScreen(boardString);
+		boardString.append(updateStats()+'\n');
 		boardBox.setText(boardString.toString());
 		invalidate();
 		repaint();
@@ -139,6 +138,19 @@ public class GUI extends JFrame implements ActionListener
 		// Player two
 		positionInString = board.calculateBoardStringPosition(playerTwo.getX(), playerTwo.getY());
 		boardString.setCharAt(positionInString, playerTwo.getDisplayChar());
+	}
+
+	private String updateStats() {
+		String p1Stats = "\nPlayer One: (";
+		p1Stats += playerOne.getX() + ", " + playerOne.getY();
+		p1Stats += "), " + playerOne.getDirection();
+
+		String p2Stats = "\nPlayer Two: (";
+		p2Stats += playerTwo.getX() + ", " + playerTwo.getY();
+		p2Stats += "), " + playerTwo.getDirection();
+
+		//statsBox.setText(p1Stats + "\n" + p2Stats);
+		return p1Stats + p2Stats;
 	}
 
 	private class KeyProcessor extends KeyAdapter

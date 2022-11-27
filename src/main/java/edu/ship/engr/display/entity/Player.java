@@ -81,6 +81,18 @@ public class Player {
         return yPosNext;
     }
 
+    public String getDirection() {
+        if (direction == Direction.Up) {
+            return "Up";
+        } else if(direction == Direction.Down) {
+            return "Down";
+        } else if (direction == Direction.Right) {
+            return "Right";
+        } else if (direction == Direction.Left) {
+            return "Left";
+        }
+        return "N/A";
+    }
     public char getDisplayChar() {
         return 'P';
     }
