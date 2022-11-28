@@ -1,9 +1,6 @@
 package edu.ship.engr.communication;
 
-import edu.ship.engr.communication.handlers.FirstObjectToSendHandler;
-import edu.ship.engr.communication.handlers.MovementHandler;
-import edu.ship.engr.communication.handlers.ReplyObjectHandler;
-import edu.ship.engr.communication.handlers.Handler;
+import edu.ship.engr.communication.handlers.*;
 import edu.ship.engr.messages.Message;
 
 public class MessageHandlerSet
@@ -34,7 +31,10 @@ public class MessageHandlerSet
                     ), new ReplyObjectHandler()),
                     new HandlerMapping(Class.forName("edu.ship.engr.messages" +
                             ".MovementMessage"
-                    ), new MovementHandler())
+                    ), new MovementHandler()),
+                    new HandlerMapping(Class.forName("edu.ship.engr.messages" +
+                            ".InteractMessage"
+                    ), new InteractHandler())
             };
 
 

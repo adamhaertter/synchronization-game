@@ -1,9 +1,10 @@
 package edu.ship.engr.display;
 
 import edu.ship.engr.communication.Timestamp;
-import edu.ship.engr.display.entity.Item;
-import edu.ship.engr.display.entity.Player;
+import edu.ship.engr.display.entity.*;
+import edu.ship.engr.display.entity.Box;
 import edu.ship.engr.enums.Direction;
+import edu.ship.engr.messages.InteractMessage;
 import edu.ship.engr.messages.Message;
 import edu.ship.engr.messages.MovementMessage;
 import edu.ship.engr.peertopeer.PlayRunner;
@@ -111,22 +112,22 @@ public class GUI extends JFrame implements ActionListener
 		repaint();
 	}
 
-	private void calcMoveForPlayer(Player player) {
-		if (board.isSteppable(player.getNextX(), player.getNextY()))
-		{
-//			player.move();
-
-			Item x = board.getItem(player.getX(), player.getY());
-			if (x != null)
-			{
-				player.addToInventory(x);
-			}
-			//TODO get the item off the board
-			board.markVisibleAround(player.getX(), player.getY());
-		} else {
-//			player.remainInPlace();
-		}
-	}
+//	private void calcMoveForPlayer(Player player) {
+//		if (board.isSteppable(player.getNextX(), player.getNextY()))
+//		{
+////			player.move();
+//
+//			Item x = board.getItem(player.getX(), player.getY());
+//			if (x != null)
+//			{
+//				player.addToInventory(x);
+//			}
+//			//TODO get the item off the board
+//			board.markVisibleAround(player.getX(), player.getY());
+//		} else {
+////			player.remainInPlace();
+//		}
+//	}
 
 	private void putPlayersOnTheScreen(StringBuffer boardString)
 	{
@@ -174,6 +175,7 @@ public class GUI extends JFrame implements ActionListener
 //				myPlayer.calculateUpcomingMove(Direction.Left);
 				if (board.isSteppable(myPlayer.getX() - 1, myPlayer.getY())) {
 					myPlayer.move(myPlayer.getX() - 1, myPlayer.getY());
+					myPlayer.setDirection(Direction.Left);
 					printPlayerMove(myPlayer);
 				}
 			}
@@ -182,6 +184,7 @@ public class GUI extends JFrame implements ActionListener
 //				myPlayer.calculateUpcomingMove(Direction.Right);
 				if (board.isSteppable(myPlayer.getX() + 1, myPlayer.getY())) {
 					myPlayer.move(myPlayer.getX() + 1, myPlayer.getY());
+					myPlayer.setDirection(Direction.Right);
 					printPlayerMove(myPlayer);
 				}
 			}
@@ -190,6 +193,7 @@ public class GUI extends JFrame implements ActionListener
 //				myPlayer.calculateUpcomingMove(Direction.Up);
 				if (board.isSteppable(myPlayer.getX(), myPlayer.getY() - 1)) {
 					myPlayer.move(myPlayer.getX(), myPlayer.getY() - 1);
+					myPlayer.setDirection(Direction.Up);
 					printPlayerMove(myPlayer);
 				}
 			}
@@ -198,26 +202,49 @@ public class GUI extends JFrame implements ActionListener
 //				myPlayer.calculateUpcomingMove(Direction.Down);
 				if (board.isSteppable(myPlayer.getX(), myPlayer.getY() + 1)) {
 					myPlayer.move(myPlayer.getX(), myPlayer.getY() + 1);
+					myPlayer.setDirection(Direction.Down);
 					printPlayerMove(myPlayer);
 				}
 			}
 			if (keyCode == KeyEvent.VK_SPACE) {
 				// check player direction. check tile where facing
 				// grab tile from board
-				int tileX = myPlayer.getX();
-				int tileY = myPlayer.getY();
-					switch(myPlayer.getDirection()) {
-						case("Up"):
-							tileY--;
-						case("Down"):
-							tileY++;
-						case("Right"):
-							tileX++;
-						case("Left"):
-							tileX--;
-						default:
-							//shouldn't reach
-					}
+				int targetX = myPlayer.getX();
+				int targetY = myPlayer.getY();
+				switch (myPlayer.getDirection()) {
+					case Up:
+						targetY--;
+						System.out.println("Aiming up");
+						break;
+					case Down:
+						targetY++;
+						System.out.println("Aiming down");
+						break;
+					case Right:
+						targetX++;
+						System.out.println("Aiming right");
+						break;
+					case Left:
+						targetX--;
+						System.out.println("Aiming left");
+						break;
+					default:
+						//shouldn't reach
+				}
+				System.out.println("interact button pressed at " + targetX + ", " + targetY);
+				Board board = Board.getInstance();
+
+				Item item = board.getItemAt(targetX, targetY);
+
+				if (item == null || item instanceof Door || item instanceof PressurePlate) return;
+
+				item.interact(myPlayer);
+
+				board.refreshItems();
+
+				Timestamp ts = Timestamp.getInstance();
+				InteractMessage interact = new InteractMessage(targetX, targetY, ts.getTimestamp());
+				PlayRunner.messageAccumulator.queueMessage(new Message<>(interact));
 			}
 		}
 	}

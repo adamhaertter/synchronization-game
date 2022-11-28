@@ -10,7 +10,7 @@ public class Door extends Item {
         super(xPos, yPos);
         this.items = items;
     }
-    public void isUnlocked() {
+    public boolean isUnlocked() {
         int numOn = 0;
         for (Item item : items) {
             if (item.getState()) {
@@ -18,15 +18,12 @@ public class Door extends Item {
             }
         }
         if (numOn == items.size()) {
-            this.setState(true);
+            return true;
         }
+        return false;
     }
 
     public void interact(Player player) {
-        if (this.state) {
-            this.state = false;
-        } else {
-            this.state = true;
-        }
+        this.state = isUnlocked();
     }
 }

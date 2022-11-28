@@ -5,14 +5,16 @@ import edu.ship.engr.display.entity.Item;
 import java.util.LinkedHashMap;
 
 public class InteractMessage {
-    private final Item EventObject;
+    private int targetX;
+    private int targetY;
     private final int timestamp;
 
     /**
      * @param timestamp
      */
-    public InteractMessage(Item EventObject, int timestamp) {
-        this.EventObject = EventObject;
+    public InteractMessage(int x, int y, int timestamp) {
+        this.targetX = x;
+        this.targetY = y;
         this.timestamp = timestamp;
     }
 
@@ -20,12 +22,17 @@ public class InteractMessage {
      * @param p         the hashmap that contains the data we need
      */
     public InteractMessage (LinkedHashMap<String, Object> p) {
-        this.EventObject = (Item) p.get("item");
+        this.targetX = (int) p.get("newX");
+        this.targetY = (int) p.get("newY");
         this.timestamp = (int) p.get("timestamp");
     }
 
-    public Item getEventObject() {
-        return EventObject;
+    public int getTargetX() {
+        return this.targetX;
+    }
+
+    public int getTargetY()  {
+        return this.targetY;
     }
 
     public int getTimestamp() {
@@ -34,6 +41,6 @@ public class InteractMessage {
 
     @Override
     public String toString() {
-        return "This interact is for object: " + this.EventObject;
+        return "This interact is the object at: " + this.targetX + ", " + this.targetY;
     }
 }

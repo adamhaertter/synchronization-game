@@ -11,24 +11,13 @@ import java.util.ArrayList;
 public class Player {
     private int xPos;
     private int yPos;
-    private int xPosNext;
-    private int yPosNext;
-    private Direction direction;
-    private ArrayList<Item> inventory = new ArrayList<Item>();
+    private Direction direction = Direction.Right;
+    private Box currentBox = null;
 
     public Player(int startingX, int startingY) {
         yPos = startingY;
         xPos = startingX;
-//        remainInPlace();
     }
-
-//    public void move() {
-//        xPos = xPosNext;
-//        yPos = yPosNext;
-//        Timestamp ts = Timestamp.getInstance();
-//        MovementMessage movement = new MovementMessage(xPos, yPos, ts.getTimestamp());
-//        PlayRunner.messageAccumulator.queueMessage(new Message<>(movement));
-//    }
 
     public void move(int x, int y) {
         xPos = x;
@@ -49,26 +38,8 @@ public class Player {
         }
     }
 
-    public void calculateUpcomingMove(Direction direction) {
-        this.direction = direction;
-        if (direction == Direction.Up) {
-            yPosNext = yPos - 1;
-        } else if(direction == Direction.Down) {
-            yPosNext = yPos + 1;
-        } else if (direction == Direction.Right) {
-            xPosNext = xPos + 1;
-        } else if (direction == Direction.Left) {
-            xPosNext = xPos - 1;
-        }
-    }
-
-//    public void remainInPlace() {
-//        xPosNext = xPos;
-//        yPosNext = yPos;
-//    }
-
-    public void addToInventory(Item x) {
-        inventory.add(x);
+    public void pickupBox(Box x) {
+        currentBox = x;
     }
 
     public void setDirection(Direction dir){
@@ -83,25 +54,8 @@ public class Player {
         return yPos;
     }
 
-    public int getNextX() {
-        return xPosNext;
-    }
-
-    public int getNextY() {
-        return yPosNext;
-    }
-
-    public String getDirection() {
-        if (direction == Direction.Up) {
-            return "Up";
-        } else if(direction == Direction.Down) {
-            return "Down";
-        } else if (direction == Direction.Right) {
-            return "Right";
-        } else if (direction == Direction.Left) {
-            return "Left";
-        }
-        return "N/A";
+    public Direction getDirection() {
+        return direction;
     }
     public char getDisplayChar() {
         return 'P';

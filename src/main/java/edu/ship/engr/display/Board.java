@@ -23,6 +23,7 @@ public class Board {
     char[][] boardArray = new char[BOARD_WIDTH][BOARD_HEIGHT];
     private Player playerOne;
     private Player playerTwo;
+    public Player myPlayer;
     public Player otherPlayer;
     private ArrayList<Item> items = new ArrayList<>();
 
@@ -69,7 +70,13 @@ public class Board {
         playerOne = new Player(2, 1);
         playerTwo = new Player(31, 1);
 
-        if (PlayRunner.IS_HOST) otherPlayer = playerTwo; else otherPlayer = playerOne;
+        if (PlayRunner.IS_HOST) {
+            myPlayer = playerOne;
+            otherPlayer = playerTwo;
+        } else {
+            myPlayer = playerTwo;
+            otherPlayer = playerOne;
+        }
 
         // Add items
         Lever doorTwoLever = new Lever(24, 6);
@@ -87,6 +94,9 @@ public class Board {
 
     public Player getOtherPlayer() {
         return otherPlayer;
+    }
+    public Player getMyPlayer() {
+        return myPlayer;
     }
 
     public boolean isSteppable(int x, int y) {
@@ -125,6 +135,8 @@ public class Board {
     public void refreshItems() {
         for (Item item : items) {
             if (item instanceof Door) {
+                // passing null since this is to force update the state (look into making this cleaner)
+                item.interact(null);
                 if (item.getState()) {
                     boardArray[item.getXPos()][item.getYPos()] = ' ';
                 } else {

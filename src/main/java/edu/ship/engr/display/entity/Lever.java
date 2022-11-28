@@ -7,10 +7,7 @@ public class Lever extends Item {
     }
 
     public void interact(Player player) {
-        if (this.state) {
-            this.state = false;
-        } else {
-            this.state = true;
-        }
+        System.out.println("state changed in lever");
+        this.state = !this.state;
     }
 }

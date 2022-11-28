@@ -8,7 +8,7 @@ public class Box extends Item {
 
     public void interact(Player player) {
         //TODO
-        player.addToInventory(this);
-
+        player.pickupBox(this);
+        this.setState(true);
     }
 }
