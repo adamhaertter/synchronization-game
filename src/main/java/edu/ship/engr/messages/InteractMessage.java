@@ -22,8 +22,8 @@ public class InteractMessage {
      * @param p         the hashmap that contains the data we need
      */
     public InteractMessage (LinkedHashMap<String, Object> p) {
-        this.targetX = (int) p.get("newX");
-        this.targetY = (int) p.get("newY");
+        this.targetX = (int) p.get("targetX");
+        this.targetY = (int) p.get("targetY");
         this.timestamp = (int) p.get("timestamp");
     }
 

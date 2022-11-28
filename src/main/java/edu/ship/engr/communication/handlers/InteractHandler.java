@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 public class InteractHandler implements Handler {
     @Override
     public void processMessage(Message<?> msgFromJSon) {
+        System.out.println("Message as follows: " + msgFromJSon);
         InteractMessage interact = new InteractMessage((LinkedHashMap<String, Object>) msgFromJSon.getObject());
         System.out.println("Received interact for the other player with object: " + interact.getTargetX() + ", " + interact.getTargetY());
 
