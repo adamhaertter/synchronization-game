@@ -1,8 +1,8 @@
 package edu.ship.engr.display.entity;
 
 public abstract class Item {
-    private int xPos;
-    private int yPos;
+    protected int xPos;
+    protected int yPos;
 
     protected boolean state;
 
@@ -16,6 +16,11 @@ public abstract class Item {
 
     public boolean getState() {
         return state;
+    }
+
+    public void setPos(int x, int y) {
+        this.xPos = x;
+        this.yPos = y;
     }
 
     public void setState(boolean newState) {

@@ -53,17 +53,17 @@ public class Board {
             "      |    |                         |    |          \n" +
             "------|--- |------------     --------|--- |----------\n" +
             "|                      |     |                      |\n" +
-            "|                      |     |                      *\n" +
-            "|                      |     |                      |\n" +
-            "|    O         O       |-----|     O           O    |\n" +
-            "|                      | O O |                      |\n" +
-            "|                      D     D                      |\n" +
-            "|         B            |-----|          B           |\n" +
             "|                      |     |                      |\n" +
             "|                      |     |                      |\n" +
+            "|                      |-----|                      |\n" +
+            "|                      |     |                      |\n" +
+            "|                                                   |\n" +
+            "|                      |-----|                      |\n" +
             "|                      |     |                      |\n" +
             "|                      |     |                      |\n" +
-            "------------------------     ------|----D|-----------";
+            "|                      |     |                      |\n" +
+            "|                      |     |                      |\n" +
+            "------------------------     ------|---- |-----------";
 
     private Board() {
         // Add players
@@ -79,6 +79,7 @@ public class Board {
         }
 
         // Add items
+        // Level 1
         Lever doorTwoLever = new Lever(24, 6);
         Lever doorOneLever = new Lever(30, 6);
         items.add(doorOneLever);
@@ -87,8 +88,38 @@ public class Board {
         door1List.add(doorOneLever);
         ArrayList<Item> door2List = new ArrayList<>();
         door2List.add(doorTwoLever);
-        items.add(new Door(door1List, 11, 11));
+//        items.add(new Door(door1List, 11, 11));
         items.add(new Door(door2List, 42, 11));
+
+        // Level 2
+        items.add(new Box(11, 21));
+        items.add(new Box(41, 21));
+        items.add(new Box(27, 19));
+        PressurePlate pp1 = new PressurePlate(5, 18);
+        PressurePlate pp2 = new PressurePlate(15, 18);
+        PressurePlate pp3 = new PressurePlate(35, 18);
+        PressurePlate pp4 = new PressurePlate(47, 18);
+        items.add(pp1);
+        items.add(pp2);
+        items.add(pp3);
+        items.add(pp4);
+        ArrayList<Item> door3List = new ArrayList<>();
+        door3List.add(pp1);
+        door3List.add(pp2);
+        Door door3 = new Door(door3List, 24, 20);
+        ArrayList<Item> door4List = new ArrayList<>();
+        door4List.add(pp3);
+        door4List.add(pp4);
+        Door door4 = new Door(door4List, 30, 20);
+        ArrayList<Item> door5List = new ArrayList<>();
+        door5List.add(pp1);
+        door5List.add(pp2);
+        door5List.add(pp3);
+        door5List.add(pp4);
+        Door door5 = new Door(door5List, 41, 26);
+        items.add(door3);
+        items.add(door4);
+        items.add(door5);
         refreshBoard(startingBoard);
     }
 
@@ -103,6 +134,10 @@ public class Board {
         return x >= 0 && x < BOARD_WIDTH && y >= 0 && y < BOARD_HEIGHT && boardArray[x][y] != '-'
                 && boardArray[x][y] != '|' && boardArray[x][y] != 'P' && boardArray[x][y] != 'D'
                 && boardArray[x][y] != 'B' && boardArray[x][y] != '*';
+    }
+    public boolean canPlaceBox(int x, int y) {
+        return x >= 0 && x < BOARD_WIDTH && y >= 0 && y < BOARD_HEIGHT && boardArray[x][y] != '-'
+                && boardArray[x][y] != '|' && boardArray[x][y] != 'P' && boardArray[x][y] != 'D';
     }
 
     public void markVisibleAround(int x, int y) {
@@ -212,6 +247,24 @@ public class Board {
     public Item getItemAt(int x, int y) {
         for (Item item : items) {
             if (item.getXPos() == x && item.getYPos() == y) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public Item getItemAtIfPressurePlate(int x, int y) {
+        for (Item item : items) {
+            if (item.getXPos() == x && item.getYPos() == y && item instanceof PressurePlate) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public Item getItemAtIfBox(int x, int y) {
+        for (Item item : items) {
+            if (item.getXPos() == x && item.getYPos() == y && item instanceof Box) {
                 return item;
             }
         }

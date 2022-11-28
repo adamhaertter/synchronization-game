@@ -4,6 +4,7 @@ import edu.ship.engr.communication.Timestamp;
 import edu.ship.engr.display.entity.*;
 import edu.ship.engr.display.entity.Box;
 import edu.ship.engr.enums.Direction;
+import edu.ship.engr.exceptions.InvalidTargetException;
 import edu.ship.engr.messages.InteractMessage;
 import edu.ship.engr.messages.Message;
 import edu.ship.engr.messages.MovementMessage;
@@ -36,6 +37,14 @@ public class GUI extends JFrame implements ActionListener
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private String key = "- and | are walls\n" +
+			"* are unactivated levers\n" +
+			"# are activated levers\n" +
+			"D are closed doors\n" +
+			"P are players\n" +
+			"0 are pressure plates\n" +
+			"B are boxes";
+
 	private Timer timer;
 	private JTextComponent boardBox;
 	private Board board;
@@ -60,6 +69,7 @@ public class GUI extends JFrame implements ActionListener
 		boardBox = new JTextArea();
 		boardBox.setText("Starting");
 		boardBox.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+		boardBox.setEditable(false);
 		this.add(boardBox);
 
 		boardBox.addKeyListener(new KeyProcessor());
@@ -106,7 +116,8 @@ public class GUI extends JFrame implements ActionListener
 		// use board.setText to send that string to the display
 		StringBuffer boardString = new StringBuffer(board.toString());
 		putPlayersOnTheScreen(boardString);
-		boardString.append(updateStats()).append('\n');
+		boardString.append(updateStats() + '\n');
+		boardString.append("\n\n" + key + '\n');
 		boardBox.setText(boardString.toString());
 		invalidate();
 		repaint();
@@ -144,10 +155,14 @@ public class GUI extends JFrame implements ActionListener
 		String p1Stats = "\nPlayer One: (";
 		p1Stats += playerOne.getX() + ", " + playerOne.getY();
 		p1Stats += "), " + playerOne.getDirection();
+		if(playerOne.getBox() != null)
+			p1Stats += ". Currently holding a box.";
 
 		String p2Stats = "\nPlayer Two: (";
 		p2Stats += playerTwo.getX() + ", " + playerTwo.getY();
 		p2Stats += "), " + playerTwo.getDirection();
+		if(playerTwo.getBox() != null)
+			p2Stats += ". Currently holding a box.";
 
 		//statsBox.setText(p1Stats + "\n" + p2Stats);
 		return p1Stats + p2Stats;
@@ -209,36 +224,35 @@ public class GUI extends JFrame implements ActionListener
 			if (keyCode == KeyEvent.VK_SPACE) {
 				// check player direction. check tile where facing
 				// grab tile from board
-				int targetX = myPlayer.getX();
-				int targetY = myPlayer.getY();
-				switch (myPlayer.getDirection()) {
-					case Up:
-						targetY--;
-						System.out.println("Aiming up");
-						break;
-					case Down:
-						targetY++;
-						System.out.println("Aiming down");
-						break;
-					case Right:
-						targetX++;
-						System.out.println("Aiming right");
-						break;
-					case Left:
-						targetX--;
-						System.out.println("Aiming left");
-						break;
-					default:
-						//shouldn't reach
-				}
+				int[] targetPos = myPlayer.getTargetPosition();
+				int targetX = targetPos[0];
+				int targetY = targetPos[1];
+
 				System.out.println("interact button pressed at " + targetX + ", " + targetY);
 				Board board = Board.getInstance();
 
 				Item item = board.getItemAt(targetX, targetY);
 
-				if (item == null || item instanceof Door || item instanceof PressurePlate) return;
+				// can't interact with a door
+				if (item instanceof Door) return;
 
-				item.interact(myPlayer);
+				// can place boxes on non items (the floor) and pressure plates
+				if (item == null || item instanceof PressurePlate) {
+					Item possibleBox = board.getItemAtIfBox(targetX, targetY);
+					if (possibleBox == null) {
+						try {
+							myPlayer.placeBox();
+						} catch (InvalidTargetException ex) {
+							// move on
+						}
+					} else {
+						item = possibleBox;
+					}
+				}
+
+				if (item instanceof Lever || item instanceof Box) {
+					item.interact(myPlayer);
+				}
 
 				board.refreshItems();
 

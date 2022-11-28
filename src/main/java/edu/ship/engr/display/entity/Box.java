@@ -1,5 +1,7 @@
 package edu.ship.engr.display.entity;
 
+import edu.ship.engr.display.Board;
+
 public class Box extends Item {
 
     public Box(int xPos, int yPos) {
@@ -8,7 +10,19 @@ public class Box extends Item {
 
     public void interact(Player player) {
         //TODO
-        player.pickupBox(this);
-        this.setState(true);
+        if (player.getBox() == null) {
+            player.pickupBox(this);
+            this.state = true;
+
+            Board board = Board.getInstance();
+
+            Item pressurePlate = board.getItemAtIfPressurePlate(xPos, yPos);
+
+            if (pressurePlate != null) {
+                pressurePlate.setState(false);
+            }
+
+//            this.setPos(5, 5);
+        }
     }
 }

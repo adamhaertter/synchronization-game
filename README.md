@@ -60,7 +60,8 @@ Interacting with objects is done with the space bar
 
 ### Understanding the Board
 * \- and | are walls
-* \* are levers
+* \* are unactivated levers
+* \# are activated levers
 * D are closed doors
 * P are players
 * 0 are pressure plates

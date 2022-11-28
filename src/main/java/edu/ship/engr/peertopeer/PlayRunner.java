@@ -32,6 +32,10 @@ public class PlayRunner
         gui.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         gui.setPreferredSize(new Dimension(400, 800));
         gui.pack();
+        if(IS_HOST)
+            gui.setLocation((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/4, 50);
+        else
+            gui.setLocation((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()*2/3, 50);
         gui.setVisible(true);
 
         Socket socket;
