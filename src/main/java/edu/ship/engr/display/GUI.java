@@ -97,16 +97,15 @@ public class GUI extends JFrame implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		System.out.println("Action performed! Now at (" + myPlayer.getX() +" , " + myPlayer.getY() + ") and next (" +
-				myPlayer.getNextX() + ", " + myPlayer.getNextY() + ").");
-		calcMoveForPlayer(this.myPlayer);
-
+		Board board = Board.getInstance();
+		// refresh the items
+		board.refreshItems();
 		// here you should create the string that is the entire display (with \n
 		// between lines)
 		// use board.setText to send that string to the display
 		StringBuffer boardString = new StringBuffer(board.toString());
 		putPlayersOnTheScreen(boardString);
-		boardString.append(updateStats()+'\n');
+		boardString.append(updateStats()).append('\n');
 		boardBox.setText(boardString.toString());
 		invalidate();
 		repaint();
@@ -115,7 +114,7 @@ public class GUI extends JFrame implements ActionListener
 	private void calcMoveForPlayer(Player player) {
 		if (board.isSteppable(player.getNextX(), player.getNextY()))
 		{
-			player.move();
+//			player.move();
 
 			Item x = board.getItem(player.getX(), player.getY());
 			if (x != null)
@@ -125,7 +124,7 @@ public class GUI extends JFrame implements ActionListener
 			//TODO get the item off the board
 			board.markVisibleAround(player.getX(), player.getY());
 		} else {
-			player.remainInPlace();
+//			player.remainInPlace();
 		}
 	}
 
@@ -153,6 +152,11 @@ public class GUI extends JFrame implements ActionListener
 		return p1Stats + p2Stats;
 	}
 
+	// function to sout that the player has moved and their new location
+	public static void printPlayerMove(Player player) {
+        System.out.println("Player " + (PlayRunner.IS_HOST ? "1" : "2") + " has moved to (" + player.getX() + ", " + player.getY() + ")");
+    }
+
 	private class KeyProcessor extends KeyAdapter
 	{
 
@@ -167,25 +171,54 @@ public class GUI extends JFrame implements ActionListener
 			int keyCode = e.getKeyCode();
 			if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_A)
 			{
-				myPlayer.calculateUpcomingMove(Direction.Left);
+//				myPlayer.calculateUpcomingMove(Direction.Left);
+				if (board.isSteppable(myPlayer.getX() - 1, myPlayer.getY())) {
+					myPlayer.move(myPlayer.getX() - 1, myPlayer.getY());
+					printPlayerMove(myPlayer);
+				}
 			}
 			if (keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_D)
 			{
-				myPlayer.calculateUpcomingMove(Direction.Right);
+//				myPlayer.calculateUpcomingMove(Direction.Right);
+				if (board.isSteppable(myPlayer.getX() + 1, myPlayer.getY())) {
+					myPlayer.move(myPlayer.getX() + 1, myPlayer.getY());
+					printPlayerMove(myPlayer);
+				}
 			}
 			if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W)
 			{
-				myPlayer.calculateUpcomingMove(Direction.Up);
+//				myPlayer.calculateUpcomingMove(Direction.Up);
+				if (board.isSteppable(myPlayer.getX(), myPlayer.getY() - 1)) {
+					myPlayer.move(myPlayer.getX(), myPlayer.getY() - 1);
+					printPlayerMove(myPlayer);
+				}
 			}
 			if (keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S)
 			{
-				myPlayer.calculateUpcomingMove(Direction.Down);
+//				myPlayer.calculateUpcomingMove(Direction.Down);
+				if (board.isSteppable(myPlayer.getX(), myPlayer.getY() + 1)) {
+					myPlayer.move(myPlayer.getX(), myPlayer.getY() + 1);
+					printPlayerMove(myPlayer);
+				}
 			}
 			if (keyCode == KeyEvent.VK_SPACE) {
 				// check player direction. check tile where facing
 				// grab tile from board
+				int tileX = myPlayer.getX();
+				int tileY = myPlayer.getY();
+					switch(myPlayer.getDirection()) {
+						case("Up"):
+							tileY--;
+						case("Down"):
+							tileY++;
+						case("Right"):
+							tileX++;
+						case("Left"):
+							tileX--;
+						default:
+							//shouldn't reach
+					}
 			}
 		}
-
 	}
 }

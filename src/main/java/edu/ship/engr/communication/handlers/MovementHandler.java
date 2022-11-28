@@ -17,10 +17,10 @@ public class MovementHandler implements Handler {
         System.out.println("Received movement for the other player with coordinates x" + movement.getNewX() + " y" + movement.getNewY());
 
 
-        if (Timestamp.getInstance().getTimestamp() > movement.getTimestamp()) {
+        /*if (Timestamp.getInstance().getTimestamp() > movement.getTimestamp()) {
             // uh oh stinky
             return;
-        }
+        }*/
 
         // Move the opposite player
         Board board = Board.getInstance();

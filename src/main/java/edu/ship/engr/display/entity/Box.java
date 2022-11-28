@@ -8,5 +8,7 @@ public class Box extends Item {
 
     public void interact(Player player) {
         //TODO
+        player.addToInventory(this);
+
     }
 }

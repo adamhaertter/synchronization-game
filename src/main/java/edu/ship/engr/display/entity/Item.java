@@ -4,7 +4,7 @@ public abstract class Item {
     private int xPos;
     private int yPos;
 
-    private boolean state;
+    protected boolean state;
 
     public int getXPos() {
         return xPos;

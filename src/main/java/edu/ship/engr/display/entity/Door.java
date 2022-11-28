@@ -23,6 +23,10 @@ public class Door extends Item {
     }
 
     public void interact(Player player) {
-        //TODO
+        if (this.state) {
+            this.state = false;
+        } else {
+            this.state = true;
+        }
     }
 }

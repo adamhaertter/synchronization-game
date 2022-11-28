@@ -51,7 +51,7 @@ public class PlayRunner
         if (IS_HOST)
         {
             // add player to board. else condition if not host is for adding second player to board and sending the join message to the host
-            // after host recieves, sends a response back with his own join message
+            // after host receives, sends a response back with his own join message
             System.out.println("Sending msg");
             FirstObjectToSend x = new FirstObjectToSend(42, 59);
             messageAccumulator.queueMessage(new Message<>(x));

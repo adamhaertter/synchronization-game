@@ -1,10 +1,7 @@
 package edu.ship.engr.display;
 
 import edu.ship.engr.communication.Timestamp;
-import edu.ship.engr.display.entity.Door;
-import edu.ship.engr.display.entity.Item;
-import edu.ship.engr.display.entity.Lever;
-import edu.ship.engr.display.entity.Player;
+import edu.ship.engr.display.entity.*;
 import edu.ship.engr.peertopeer.PlayRunner;
 
 import java.util.ArrayList;
@@ -31,7 +28,8 @@ public class Board {
 
     /**
      * - and | are walls
-     * * are levers
+     * * are levers off
+     * # are levers on
      * D are closed doors
      * P are players
      * 0 are pressure plates
@@ -43,13 +41,13 @@ public class Board {
             "|                      |     |                      |\n" +
             "|                      |     |                      |\n" +
             "|                      |     |                      |\n" +
-            "|                      *     *                      |\n" +
             "|                      |     |                      |\n" +
             "|                      |     |                      |\n" +
             "|                      |     |                      |\n" +
             "|                      |     |                      |\n" +
             "|                      |     |                      |\n" +
-            "------|---D|------------     --------|---D|----------\n" +
+            "|                      |     |                      |\n" +
+            "------|--- |------------     --------|--- |----------\n" +
             "      |    |                         |    |          \n" +
             "      |    |                         |    |          \n" +
             "------|--- |------------     --------|--- |----------\n" +
@@ -67,8 +65,6 @@ public class Board {
             "------------------------     ------|----D|-----------";
 
     private Board() {
-        setText(startingBoard);
-
         // Add players
         playerOne = new Player(2, 1);
         playerTwo = new Player(31, 1);
@@ -84,8 +80,9 @@ public class Board {
         door1List.add(doorOneLever);
         ArrayList<Item> door2List = new ArrayList<>();
         door2List.add(doorTwoLever);
-        items.add(new Door(door1List, 11, 12));
-        items.add(new Door(door2List, 42, 12));
+        items.add(new Door(door1List, 11, 11));
+        items.add(new Door(door2List, 42, 11));
+        refreshBoard(startingBoard);
     }
 
     public Player getOtherPlayer() {
@@ -106,7 +103,7 @@ public class Board {
         return y * BOARD_WIDTH + x;
     }
 
-    public void setText(String newBoard) {
+    public void refreshBoard(String newBoard) {
         int row = 0;
         int col = 0;
         for (int i = 0; i < BOARD_HEIGHT*BOARD_WIDTH - 1; i++) {
@@ -117,6 +114,41 @@ public class Board {
             }
             boardArray[col][row] = newBoard.charAt(i);
             col++;
+        }
+
+        refreshItems();
+    }
+
+    /**
+     * Refreshes the items on the board
+     */
+    public void refreshItems() {
+        for (Item item : items) {
+            if (item instanceof Door) {
+                if (item.getState()) {
+                    boardArray[item.getXPos()][item.getYPos()] = ' ';
+                } else {
+                    boardArray[item.getXPos()][item.getYPos()] = 'D';
+                }
+            } else if (item instanceof Box) {
+                if (item.getState()) {
+                    boardArray[item.getXPos()][item.getYPos()] = ' ';
+                } else {
+                    boardArray[item.getXPos()][item.getYPos()] = 'B';
+                }
+            } else if (item instanceof Lever) {
+                if (item.getState()) {
+                    boardArray[item.getXPos()][item.getYPos()] = '#';
+                } else {
+                    boardArray[item.getXPos()][item.getYPos()] = '*';
+                }
+            } else if (item instanceof PressurePlate) {
+                // if the pressure plate is pressed, then it is a 0, otherwise it is nothing since the player or the
+                // box will be on it and we don't want to overwrite that
+                if (!item.getState()) {
+                    boardArray[item.getXPos()][item.getYPos()] = 'O';
+                }
+            }
         }
     }
 
@@ -157,5 +189,20 @@ public class Board {
         }
 
         return print.toString();
+    }
+
+    /**
+     * Function to see if any object is at the given coordinates and return it
+     * @param x coordinate to check
+     * @param y coordinate to check
+     * @return the object at the given coordinates, null if none
+     */
+    public Item getItemAt(int x, int y) {
+        for (Item item : items) {
+            if (item.getXPos() == x && item.getYPos() == y) {
+                return item;
+            }
+        }
+        return null;
     }
 }

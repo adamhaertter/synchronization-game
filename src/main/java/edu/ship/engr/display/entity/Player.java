@@ -19,12 +19,20 @@ public class Player {
     public Player(int startingX, int startingY) {
         yPos = startingY;
         xPos = startingX;
-        remainInPlace();
+//        remainInPlace();
     }
 
-    public void move() {
-        xPos = xPosNext;
-        yPos = yPosNext;
+//    public void move() {
+//        xPos = xPosNext;
+//        yPos = yPosNext;
+//        Timestamp ts = Timestamp.getInstance();
+//        MovementMessage movement = new MovementMessage(xPos, yPos, ts.getTimestamp());
+//        PlayRunner.messageAccumulator.queueMessage(new Message<>(movement));
+//    }
+
+    public void move(int x, int y) {
+        xPos = x;
+        yPos = y;
         Timestamp ts = Timestamp.getInstance();
         MovementMessage movement = new MovementMessage(xPos, yPos, ts.getTimestamp());
         PlayRunner.messageAccumulator.queueMessage(new Message<>(movement));
@@ -36,7 +44,9 @@ public class Player {
     }
 
     public void interact(Item x) {
-        x.interact(this);
+        if (!(x instanceof Door)) {
+            x.interact(this);
+        }
     }
 
     public void calculateUpcomingMove(Direction direction) {
@@ -52,10 +62,10 @@ public class Player {
         }
     }
 
-    public void remainInPlace() {
-        xPosNext = xPos;
-        yPosNext = yPos;
-    }
+//    public void remainInPlace() {
+//        xPosNext = xPos;
+//        yPosNext = yPos;
+//    }
 
     public void addToInventory(Item x) {
         inventory.add(x);
