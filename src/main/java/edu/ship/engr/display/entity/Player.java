@@ -21,12 +21,21 @@ public class Player {
         xPos = startingX;
     }
 
-    public void move(int x, int y) {
-        xPos = x;
-        yPos = y;
-        Timestamp ts = Timestamp.getInstance();
-        MovementMessage movement = new MovementMessage(xPos, yPos, ts.getTimestamp());
-        PlayRunner.messageAccumulator.queueMessage(new Message<>(movement));
+    public void move(int x, int y, Direction direction) {
+        Board board = Board.getInstance();
+        Item itemAtNewPosition = board.getItemAt(x, y);
+        if (itemAtNewPosition != null) {
+            itemAtNewPosition.interact(this);
+        }
+
+        Item atPreviousPosition = board.getItemAt(xPos, yPos);
+        if (atPreviousPosition != null) {
+            atPreviousPosition.interact(this);
+        }
+
+        this.xPos = x;
+        this.yPos = y;
+        this.direction = direction;
     }
 
     public void setPosition(int x, int y) {
@@ -35,6 +44,7 @@ public class Player {
     }
 
     public void placeBox() throws InvalidTargetException {
+        System.out.println("Placed box");
         int[] targetPosition = getTargetPosition();
 
         if (targetPosition == null) {
@@ -88,6 +98,7 @@ public class Player {
     }
 
     public void pickupBox(Box x) {
+        System.out.println("Picked up box");
         currentBox = x;
     }
 

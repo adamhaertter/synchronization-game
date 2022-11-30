@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
@@ -25,103 +26,102 @@ import javax.swing.text.JTextComponent;
  * the clock and handles keyboard input)
  *
  * @author Merlin
- *
  */
-public class GUI extends JFrame implements ActionListener
-{
+public class GUI extends JFrame implements ActionListener {
 
-	private static final String TITLE_BAR_HOST = "Puzzle Game (Host)";
-	private static final String TITLE_BAR_PEER = "Puzzle Game (Peer)";
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final String TITLE_BAR_HOST = "Puzzle Game (Host)";
+    private static final String TITLE_BAR_PEER = "Puzzle Game (Peer)";
 
-	private String key = "- and | are walls\n" +
-			"* are unactivated levers\n" +
-			"# are activated levers\n" +
-			"D are closed doors\n" +
-			"P are players\n" +
-			"0 are pressure plates\n" +
-			"B are boxes";
+    // Array list of acceptable key inputs
+    private static final ArrayList<Integer> acceptableKeys = new ArrayList<>(Arrays.asList(KeyEvent.VK_W, KeyEvent.VK_A, KeyEvent.VK_S, KeyEvent.VK_D, KeyEvent.VK_SPACE, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
 
-	private Timer timer;
-	private JTextComponent boardBox;
-	private Board board;
-	private Player playerOne;
-	private Player playerTwo;
-	private Player myPlayer;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Create it and show it!
-	 */
-	public GUI()
-	{
-		// set the title and dimensions of your window
-		if(PlayRunner.IS_HOST)
-			setTitle(TITLE_BAR_HOST);
-		else
-			setTitle(TITLE_BAR_PEER);
-		setSize(600, 600);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+    private String key = "- and | are walls\n" +
+            "* are unactivated levers\n" +
+            "# are activated levers\n" +
+            "D are closed doors\n" +
+            "P are players\n" +
+            "0 are pressure plates\n" +
+            "B are boxes";
 
-		boardBox = new JTextArea();
-		boardBox.setText("Starting");
-		boardBox.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-		boardBox.setEditable(false);
-		this.add(boardBox);
+    private Timer timer;
+    private JTextComponent boardBox;
+    private Board board;
+    private Player playerOne;
+    private Player playerTwo;
+    private Player myPlayer;
 
-		boardBox.addKeyListener(new KeyProcessor());
+    /**
+     * Create it and show it!
+     */
+    public GUI() {
+        // set the title and dimensions of your window
+        if (PlayRunner.IS_HOST)
+            setTitle(TITLE_BAR_HOST);
+        else
+            setTitle(TITLE_BAR_PEER);
+        setSize(600, 600);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		startTheTimer();
-		board = Board.getInstance();
-		this.playerOne = board.getPlayerOne();
-		this.playerTwo = board.getPlayerTwo();
+        boardBox = new JTextArea();
+        boardBox.setText("Starting");
+        boardBox.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+        boardBox.setEditable(false);
+        this.add(boardBox);
 
-		// First logic
-		StringBuffer boardString = new StringBuffer(board.toString());
-		putPlayersOnTheScreen(boardString);
-		boardBox.setText(boardString.toString());
+        boardBox.addKeyListener(new KeyProcessor());
 
-		if (PlayRunner.IS_HOST) {
-			myPlayer = playerOne;
-		} else {
-			myPlayer = playerTwo;
-		}
-	}
+        startTheTimer();
+        board = Board.getInstance();
+        this.playerOne = board.getPlayerOne();
+        this.playerTwo = board.getPlayerTwo();
 
-	private void startTheTimer()
-	{
-		timer = new Timer(750, this);
-		timer.setInitialDelay(750);
-		timer.start();
+        // First logic
+        StringBuffer boardString = new StringBuffer(board.toString());
+        putPlayersOnTheScreen(boardString);
+        boardBox.setText(boardString.toString());
 
-	}
+        if (PlayRunner.IS_HOST) {
+            myPlayer = playerOne;
+        } else {
+            myPlayer = playerTwo;
+        }
+    }
 
-	/**
-	 * This is where you put things that should happen based on the timer (like
-	 * updating the GUI)
-	 *
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		Board board = Board.getInstance();
-		// refresh the items
-		board.refreshItems();
-		// here you should create the string that is the entire display (with \n
-		// between lines)
-		// use board.setText to send that string to the display
-		StringBuffer boardString = new StringBuffer(board.toString());
-		putPlayersOnTheScreen(boardString);
-		boardString.append(updateStats() + '\n');
-		boardString.append("\n\n" + key + '\n');
-		boardBox.setText(boardString.toString());
-		invalidate();
-		repaint();
-	}
+    private void startTheTimer() {
+        timer = new Timer(750, this);
+        timer.setInitialDelay(750);
+        timer.start();
+
+    }
+
+    /**
+     * This is where you put things that should happen based on the timer (like
+     * updating the GUI)
+     *
+     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Board board = Board.getInstance();
+        // refresh the items
+        board.refreshItems();
+        // here you should create the string that is the entire display (with \n
+        // between lines)
+        // use board.setText to send that string to the display
+        StringBuffer boardString = new StringBuffer(board.toString());
+        putPlayersOnTheScreen(boardString);
+        boardString.append(updateStats() + '\n');
+        boardString.append("\n\n" + key + '\n');
+        boardBox.setText(boardString.toString());
+        invalidate();
+        repaint();
+    }
 
 //	private void calcMoveForPlayer(Player player) {
 //		if (board.isSteppable(player.getNextX(), player.getNextY()))
@@ -140,147 +140,172 @@ public class GUI extends JFrame implements ActionListener
 //		}
 //	}
 
-	private void putPlayersOnTheScreen(StringBuffer boardString)
-	{
-		// Player one
-		int positionInString = board.calculateBoardStringPosition(playerOne.getX(), playerOne.getY());
-		boardString.setCharAt(positionInString, playerOne.getDisplayChar());
+    private void putPlayersOnTheScreen(StringBuffer boardString) {
+        // Player one
+        int positionInString = board.calculateBoardStringPosition(playerOne.getX(), playerOne.getY());
+        boardString.setCharAt(positionInString, playerOne.getDisplayChar());
 
-		// Player two
-		positionInString = board.calculateBoardStringPosition(playerTwo.getX(), playerTwo.getY());
-		boardString.setCharAt(positionInString, playerTwo.getDisplayChar());
-	}
+        // Player two
+        positionInString = board.calculateBoardStringPosition(playerTwo.getX(), playerTwo.getY());
+        boardString.setCharAt(positionInString, playerTwo.getDisplayChar());
+    }
 
-	private String updateStats() {
-		String p1Stats = "\nPlayer One: (";
-		p1Stats += playerOne.getX() + ", " + playerOne.getY();
-		p1Stats += "), " + playerOne.getDirection();
-		if(playerOne.getBox() != null)
-			p1Stats += ". Currently holding a box.";
+    private String updateStats() {
+        String p1Stats = "\nPlayer One: (";
+        p1Stats += playerOne.getX() + ", " + playerOne.getY();
+        p1Stats += "), " + playerOne.getDirection();
+        if (playerOne.getBox() != null)
+            p1Stats += ". Currently holding a box.";
 
-		String p2Stats = "\nPlayer Two: (";
-		p2Stats += playerTwo.getX() + ", " + playerTwo.getY();
-		p2Stats += "), " + playerTwo.getDirection();
-		if(playerTwo.getBox() != null)
-			p2Stats += ". Currently holding a box.";
+        String p2Stats = "\nPlayer Two: (";
+        p2Stats += playerTwo.getX() + ", " + playerTwo.getY();
+        p2Stats += "), " + playerTwo.getDirection();
+        if (playerTwo.getBox() != null)
+            p2Stats += ". Currently holding a box.";
 
-		//statsBox.setText(p1Stats + "\n" + p2Stats);
-		return p1Stats + p2Stats;
-	}
+        String playerTrack = "\n**You are Player ";
+        if (PlayRunner.IS_HOST)
+            playerTrack += "One**";
+        else
+            playerTrack += "Two**";
 
-	// function to sout that the player has moved and their new location
-	public static void printPlayerMove(Player player) {
+        //statsBox.setText(p1Stats + "\n" + p2Stats);
+        return p1Stats + p2Stats + playerTrack;
+    }
+
+    public void showWinMSG() {
+        // add image from img directory
+        ImageIcon icon = new ImageIcon("img/moonyShum.png");
+        java.awt.Image image = icon.getImage();
+        java.awt.Image newimg = image.getScaledInstance(140, 140, java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(newimg);
+        JOptionPane.showMessageDialog(this, "Congratulations! You win!", "Victory!", JOptionPane.QUESTION_MESSAGE, icon);
+    }
+
+    // function to sout that the player has moved and their new location
+    public static void printPlayerMove(Player player) {
         System.out.println("Player " + (PlayRunner.IS_HOST ? "1" : "2") + " has moved to (" + player.getX() + ", " + player.getY() + ")");
     }
 
-	// function to check if an item has the same coordinates as the player's box
-	public static boolean itemIsPlayersBox(Player player, Item item) {
-		if (player.getBox() != null) {
-			return player.getBox().getXPos() == item.getXPos() && player.getBox().getYPos() == item.getYPos();
-		}
-		return false;
-	}
+    // function to check if an item has the same coordinates as the player's box
+    public static boolean itemIsPlayersBox(Player player, Item item) {
+        if (player.getBox() != null) {
+            return player.getBox().getXPos() == item.getXPos() && player.getBox().getYPos() == item.getYPos();
+        }
+        return false;
+    }
 
-	private class KeyProcessor extends KeyAdapter
-	{
+    // function to process an interaction
+    public static void processInteraction(Player player, int targetX, int targetY) {
+        System.out.println("interact button pressed at " + targetX + ", " + targetY);
+        Board board = Board.getInstance();
 
-		/**
-		 * This is where events will come when the user presses a key
-		 *
-		 * @see KeyAdapter#keyPressed(KeyEvent)
-		 */
-		@Override
-		public void keyPressed(KeyEvent e)
-		{
-			int keyCode = e.getKeyCode();
-			if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_A)
-			{
+        Item item = board.getItemAt(targetX, targetY);
+
+        // can't interact with a door
+        if (item instanceof Door) return;
+
+        // can place boxes on non items (the floor) and pressure plates
+        if (item == null || item instanceof PressurePlate) {
+            Item possibleBox = board.getItemAtIfBox(targetX, targetY);
+            if (possibleBox == null) {
+                System.out.println("Yeet");
+                try {
+                    player.placeBox();
+                } catch (InvalidTargetException ex) {
+                    // move on
+                }
+            } else {
+                item = possibleBox;
+            }
+        }
+
+        if (item instanceof Box) {
+            // Check if the current item we are looking at is the player's invisible box
+            if (itemIsPlayersBox(player, item)) {
+                try {
+                    System.out.println("Item is player's box");
+                    player.placeBox();
+                } catch (InvalidTargetException ex) {
+                    // move on
+                }
+            } else {
+                item.interact(player);
+            }
+        }
+
+        if (item instanceof Lever) {
+            item.interact(player);
+        }
+
+        board.refreshItems();
+    }
+
+    private class KeyProcessor extends KeyAdapter {
+
+        /**
+         * This is where events will come when the user presses a key
+         *
+         * @see KeyAdapter#keyPressed(KeyEvent)
+         */
+        @Override
+        public void keyPressed(KeyEvent e) {
+            int keyCode = e.getKeyCode();
+
+            // check if the key code is a movement direction
+            if (acceptableKeys.contains(keyCode) ) {
+                if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_A) {
 //				myPlayer.calculateUpcomingMove(Direction.Left);
-				if (board.isSteppable(myPlayer.getX() - 1, myPlayer.getY())) {
-					myPlayer.move(myPlayer.getX() - 1, myPlayer.getY());
-					myPlayer.setDirection(Direction.Left);
-					printPlayerMove(myPlayer);
-				}
-			}
-			if (keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_D)
-			{
+                    if (board.isSteppable(myPlayer.getX() - 1, myPlayer.getY())) {
+                        myPlayer.move(myPlayer.getX() - 1, myPlayer.getY(), Direction.Left);
+                        printPlayerMove(myPlayer);
+                    }
+                }
+                if (keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_D) {
 //				myPlayer.calculateUpcomingMove(Direction.Right);
-				if (board.isSteppable(myPlayer.getX() + 1, myPlayer.getY())) {
-					myPlayer.move(myPlayer.getX() + 1, myPlayer.getY());
-					myPlayer.setDirection(Direction.Right);
-					printPlayerMove(myPlayer);
-				}
-			}
-			if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W)
-			{
+                    if (board.isSteppable(myPlayer.getX() + 1, myPlayer.getY())) {
+                        myPlayer.move(myPlayer.getX() + 1, myPlayer.getY(), Direction.Right);
+                        printPlayerMove(myPlayer);
+                    }
+                }
+                if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W) {
 //				myPlayer.calculateUpcomingMove(Direction.Up);
-				if (board.isSteppable(myPlayer.getX(), myPlayer.getY() - 1)) {
-					myPlayer.move(myPlayer.getX(), myPlayer.getY() - 1);
-					myPlayer.setDirection(Direction.Up);
-					printPlayerMove(myPlayer);
-				}
-			}
-			if (keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S)
-			{
+                    if (board.isSteppable(myPlayer.getX(), myPlayer.getY() - 1)) {
+                        myPlayer.move(myPlayer.getX(), myPlayer.getY() - 1, Direction.Up);
+                        printPlayerMove(myPlayer);
+                    }
+                }
+                if (keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S) {
 //				myPlayer.calculateUpcomingMove(Direction.Down);
-				if (board.isSteppable(myPlayer.getX(), myPlayer.getY() + 1)) {
-					myPlayer.move(myPlayer.getX(), myPlayer.getY() + 1);
-					myPlayer.setDirection(Direction.Down);
-					printPlayerMove(myPlayer);
-				}
-			}
-			if (keyCode == KeyEvent.VK_SPACE) {
-				// check player direction. check tile where facing
-				// grab tile from board
-				int[] targetPos = myPlayer.getTargetPosition();
-				int targetX = targetPos[0];
-				int targetY = targetPos[1];
+                    if (board.isSteppable(myPlayer.getX(), myPlayer.getY() + 1)) {
+                        myPlayer.move(myPlayer.getX(), myPlayer.getY() + 1, Direction.Down);
+                        printPlayerMove(myPlayer);
+                    }
+                }
 
-				System.out.println("interact button pressed at " + targetX + ", " + targetY);
-				Board board = Board.getInstance();
+                Timestamp ts = Timestamp.getInstance();
+                MovementMessage movement = new MovementMessage(myPlayer.getX(), myPlayer.getY(), myPlayer.getDirection(), ts.getTimestamp());
+                PlayRunner.messageAccumulator.queueMessage(new Message<>(movement));
+            }
 
-				Item item = board.getItemAt(targetX, targetY);
+            if (keyCode == KeyEvent.VK_SPACE) {
+                // check player direction. check tile where facing
+                // grab tile from board
 
-				// can't interact with a door
-				if (item instanceof Door) return;
+                int[] targetPos = myPlayer.getTargetPosition();
+                int targetX = targetPos[0];
+                int targetY = targetPos[1];
 
-				// can place boxes on non items (the floor) and pressure plates
-				if (item == null || item instanceof PressurePlate) {
-					Item possibleBox = board.getItemAtIfBox(targetX, targetY);
-					if (possibleBox == null) {
-						try {
-							myPlayer.placeBox();
-						} catch (InvalidTargetException ex) {
-							// move on
-						}
-					} else {
-						item = possibleBox;
-					}
-				}
+                processInteraction(myPlayer, targetX, targetY);
 
-				if (item instanceof Box) {
-					// Check if the current item we are looking at is the player's invisible box
-					if (itemIsPlayersBox(myPlayer, item)) {
-						try {
-							myPlayer.placeBox();
-						} catch (InvalidTargetException ex) {
-							// move on
-						}
-					} else {
-						item.interact(myPlayer);
-					}
-				}
+                Timestamp ts = Timestamp.getInstance();
+                InteractMessage interact = new InteractMessage(targetX, targetY, ts.getTimestamp());
+                PlayRunner.messageAccumulator.queueMessage(new Message<>(interact));
+            }
+            if (keyCode == KeyEvent.VK_1) {
+                showWinMSG();
+            }
+        }
 
-				if (item instanceof Lever) {
-					item.interact(myPlayer);
-				}
-
-				board.refreshItems();
-
-				Timestamp ts = Timestamp.getInstance();
-				InteractMessage interact = new InteractMessage(targetX, targetY, ts.getTimestamp());
-				PlayRunner.messageAccumulator.queueMessage(new Message<>(interact));
-			}
-		}
-	}
+    }
 }

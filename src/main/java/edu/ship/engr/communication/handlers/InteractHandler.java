@@ -1,7 +1,9 @@
 package edu.ship.engr.communication.handlers;
 
 import edu.ship.engr.display.Board;
+import edu.ship.engr.display.GUI;
 import edu.ship.engr.display.entity.Item;
+import edu.ship.engr.display.entity.Player;
 import edu.ship.engr.messages.InteractMessage;
 import edu.ship.engr.messages.Message;
 
@@ -15,7 +17,10 @@ public class InteractHandler implements Handler {
         System.out.println("Received interact for the other player with object: " + interact.getTargetX() + ", " + interact.getTargetY());
 
         Board board = Board.getInstance();
-        Item item = board.getItemAt(interact.getTargetX(), interact.getTargetY());
-        item.interact(board.getMyPlayer());
+        Player otherPlayer = board.getOtherPlayer();
+
+        GUI.processInteraction(otherPlayer, interact.getTargetX(), interact.getTargetY());
+
+
     }
 }
