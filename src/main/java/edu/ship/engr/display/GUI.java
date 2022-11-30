@@ -173,6 +173,14 @@ public class GUI extends JFrame implements ActionListener
         System.out.println("Player " + (PlayRunner.IS_HOST ? "1" : "2") + " has moved to (" + player.getX() + ", " + player.getY() + ")");
     }
 
+	// function to check if an item has the same coordinates as the player's box
+	public static boolean itemIsPlayersBox(Player player, Item item) {
+		if (player.getBox() != null) {
+			return player.getBox().getXPos() == item.getXPos() && player.getBox().getYPos() == item.getYPos();
+		}
+		return false;
+	}
+
 	private class KeyProcessor extends KeyAdapter
 	{
 
@@ -251,10 +259,8 @@ public class GUI extends JFrame implements ActionListener
 				}
 
 				if (item instanceof Box) {
-					Box currentBox = myPlayer.getBox();
-					if (currentBox != null &&
-							item.getXPos() == currentBox.getXPos() &&
-							item.getYPos() == currentBox.getYPos()) {
+					// Check if the current item we are looking at is the player's invisible box
+					if (itemIsPlayersBox(myPlayer, item)) {
 						try {
 							myPlayer.placeBox();
 						} catch (InvalidTargetException ex) {
