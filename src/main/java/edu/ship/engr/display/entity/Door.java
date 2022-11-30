@@ -17,10 +17,7 @@ public class Door extends Item {
                 numOn++;
             }
         }
-        if (numOn == items.size()) {
-            return true;
-        }
-        return false;
+        return numOn == items.size();
     }
 
     public void interact(Player player) {

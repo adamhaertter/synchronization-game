@@ -51,8 +51,13 @@ public class Player {
             }
 
             // We have a box to place
+            // print out boxes location before placing
+            System.out.println("Box is at " + currentBox.getXPos() + ", " + currentBox.getYPos());
             currentBox.setPos(targetPosition[0], targetPosition[1]);
+            System.out.println("Placing box at " + targetPosition[0] + ", " + targetPosition[1]);
+            System.out.println("Box has a state of " + currentBox.getState());
             currentBox.setState(false);
+            System.out.println("Box now has a state of " + currentBox.getState());
             currentBox = null;
         }
     }
@@ -104,6 +109,10 @@ public class Player {
 
     public Box getBox() {
         return this.currentBox;
+    }
+
+    public void setBox(Box box) {
+        this.currentBox = box;
     }
 
     public char getDisplayChar() {

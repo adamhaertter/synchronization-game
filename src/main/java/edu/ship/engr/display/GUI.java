@@ -250,7 +250,22 @@ public class GUI extends JFrame implements ActionListener
 					}
 				}
 
-				if (item instanceof Lever || item instanceof Box) {
+				if (item instanceof Box) {
+					Box currentBox = myPlayer.getBox();
+					if (currentBox != null &&
+							item.getXPos() == currentBox.getXPos() &&
+							item.getYPos() == currentBox.getYPos()) {
+						try {
+							myPlayer.placeBox();
+						} catch (InvalidTargetException ex) {
+							// move on
+						}
+					} else {
+						item.interact(myPlayer);
+					}
+				}
+
+				if (item instanceof Lever) {
 					item.interact(myPlayer);
 				}
 
