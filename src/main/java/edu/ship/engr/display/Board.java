@@ -104,12 +104,12 @@ public class Board {
         items.add(pp3);
         items.add(pp4);
         ArrayList<Item> door3List = new ArrayList<>();
-        door3List.add(pp1);
-        door3List.add(pp2);
+        door3List.add(pp3);
+        door3List.add(pp4);
         Door door3 = new Door(door3List, 24, 20);
         ArrayList<Item> door4List = new ArrayList<>();
-        door4List.add(pp3);
-        door4List.add(pp4);
+        door4List.add(pp1);
+        door4List.add(pp2);
         Door door4 = new Door(door4List, 30, 20);
         ArrayList<Item> door5List = new ArrayList<>();
         door5List.add(pp1);

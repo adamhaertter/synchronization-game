@@ -24,14 +24,6 @@ public class MovementHandler implements Handler {
 
         // Move the opposite player
         Board board = Board.getInstance();
-        board.getOtherPlayer().setPosition(movement.getNewX(), movement.getNewY());
-
-
-//        FirstObjectToSend msg = new FirstObjectToSend((LinkedHashMap<String, Object>) msgFromJSon.getObject());
-//        System.out.println("Received first message " + msg);
-//
-//        PlayRunner.messageAccumulator.queueMessage(new Message<>(new ReplyObject("Got " + msg
-//                + "!!!!")));
-
+        board.getOtherPlayer().move(movement.getNewX(), movement.getNewY(), movement.getDirection());
     }
 }

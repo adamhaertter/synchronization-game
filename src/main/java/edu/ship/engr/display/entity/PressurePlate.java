@@ -7,10 +7,6 @@ public class PressurePlate extends Item {
     }
 
     public void interact(Player player) {
-        //TODO this is not correct
-//        if(player.getX() == getXPos() && player.getY() == getYPos())
-//            isActivated = true;
-//        else
-//            isActivated = false;
+        state = !state;
     }
 }
