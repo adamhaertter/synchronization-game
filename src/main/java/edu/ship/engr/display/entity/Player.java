@@ -61,13 +61,20 @@ public class Player {
         int targetX = xPos;
         int targetY = yPos;
         switch (direction) {
-            case Up -> targetY--;
-            case Down -> targetY++;
-            case Right -> targetX++;
-            case Left -> targetX--;
-            default -> {
-            }
-            //shouldn't reach
+            case Up:
+                targetY--;
+                break;
+            case Down:
+                targetY++;
+                break;
+            case Right:
+                targetX++;
+                break;
+            case Left:
+                targetX--;
+                break;
+            default:
+                //shouldn't reach
         }
 
         // ensure target is steppable
