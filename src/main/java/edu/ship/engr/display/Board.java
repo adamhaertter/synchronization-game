@@ -251,4 +251,6 @@ public class Board {
     public static boolean isPlayerOnWinningSpot(Player player) {
         return player.getX() == 41 && player.getY() == 26;
     }
+
+    public void addItem(Item i) { items.add(i); }
 }
