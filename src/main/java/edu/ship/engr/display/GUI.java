@@ -275,6 +275,7 @@ public class GUI extends JFrame implements ActionListener {
                 // grab tile from board
 
                 int[] targetPos = myPlayer.getTargetPosition();
+                if (targetPos == null) return;
                 int targetX = targetPos[0];
                 int targetY = targetPos[1];
 

@@ -91,9 +91,8 @@ public class Player {
                 //shouldn't reach
         }
 
-        // ensure target is steppable
         Board board = Board.getInstance();
-        return board.canPlaceBox(targetX, targetY) ? new int[]{targetX, targetY} : null;
+        return board.isInteractable(targetX, targetY) ? new int[]{targetX, targetY} : null;
     }
 
     public void pickupBox(Box x) {

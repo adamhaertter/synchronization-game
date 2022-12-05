@@ -134,10 +134,16 @@ public class Board {
                 && boardArray[x][y] != '|' && boardArray[x][y] != 'P' && boardArray[x][y] != 'D'
                 && boardArray[x][y] != 'B' && boardArray[x][y] != '*';
     }
+
     public boolean canPlaceBox(int x, int y) {
         return x >= 0 && x < BOARD_WIDTH && y >= 0 && y < BOARD_HEIGHT && boardArray[x][y] != '-'
                 && boardArray[x][y] != '|' && boardArray[x][y] != 'P' && boardArray[x][y] != 'D'
                 && boardArray[x][y] != '*' && boardArray[x][y] != '#';
+    }
+
+    public boolean isInteractable(int x, int y) {
+        return x >= 0 && x < BOARD_WIDTH && y >= 0 && y < BOARD_HEIGHT && boardArray[x][y] != '-'
+                && boardArray[x][y] != '|' && boardArray[x][y] != 'P' && boardArray[x][y] != 'D';
     }
 
     public int calculateBoardStringPosition(int x, int y) {
