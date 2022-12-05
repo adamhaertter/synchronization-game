@@ -70,4 +70,4 @@ Interacting with objects is done with the space bar
 The host's player always spawns in the left room, and the peer player spawns in the right room. 
 
 ### Winning the Game
-The goal of the game is to work together to get both players out of the maze. 
+The goal of the game is to work together to get one of the players out of the maze. Both players do not need to exit for the win message to show.
