@@ -50,8 +50,6 @@ public class MessageAccumulator
         synchronized (pendingMsgs)
         {
             pendingMsgs.add(msg);
-            Timestamp ts = Timestamp.getInstance();
-            ts.increment();
         }
     }
 

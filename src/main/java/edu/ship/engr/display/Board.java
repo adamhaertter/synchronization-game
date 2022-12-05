@@ -88,7 +88,7 @@ public class Board {
         door1List.add(doorOneLever);
         ArrayList<Item> door2List = new ArrayList<>();
         door2List.add(doorTwoLever);
-//        items.add(new Door(door1List, 11, 11));
+        items.add(new Door(door1List, 11, 11));
         items.add(new Door(door2List, 42, 11));
 
         // Level 2
@@ -269,5 +269,9 @@ public class Board {
             }
         }
         return null;
+    }
+
+    public static boolean isPlayerOnWinningSpot(Player player) {
+        return player.getX() == 41 && player.getY() == 26;
     }
 }

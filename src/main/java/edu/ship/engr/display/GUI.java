@@ -173,13 +173,13 @@ public class GUI extends JFrame implements ActionListener {
         return p1Stats + p2Stats + playerTrack;
     }
 
-    public void showWinMSG() {
+    public static void showWinMSG() {
         // add image from img directory
         ImageIcon icon = new ImageIcon("img/moonyShum.png");
         java.awt.Image image = icon.getImage();
         java.awt.Image newimg = image.getScaledInstance(140, 140, java.awt.Image.SCALE_SMOOTH);
         icon = new ImageIcon(newimg);
-        JOptionPane.showMessageDialog(this, "Congratulations! You win!", "Victory!", JOptionPane.QUESTION_MESSAGE, icon);
+        JOptionPane.showMessageDialog(null, "Congratulations! You win!", "Victory!", JOptionPane.QUESTION_MESSAGE, icon);
     }
 
     // function to sout that the player has moved and their new location
@@ -254,6 +254,8 @@ public class GUI extends JFrame implements ActionListener {
 
             // check if the key code is a movement direction
             if (acceptableKeys.contains(keyCode) ) {
+                int oldX = playerOne.getX();
+                int oldY = playerOne.getY();
                 if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_A) {
 //				myPlayer.calculateUpcomingMove(Direction.Left);
                     if (board.isSteppable(myPlayer.getX() - 1, myPlayer.getY())) {
@@ -284,7 +286,8 @@ public class GUI extends JFrame implements ActionListener {
                 }
 
                 Timestamp ts = Timestamp.getInstance();
-                MovementMessage movement = new MovementMessage(myPlayer.getX(), myPlayer.getY(), myPlayer.getDirection(), ts.getTimestamp());
+                MovementMessage movement = new MovementMessage(myPlayer.getX(), myPlayer.getY(), oldX, oldY,
+                        myPlayer.getDirection(), ts.incrementAndGet());
                 PlayRunner.messageAccumulator.queueMessage(new Message<>(movement));
             }
 
@@ -299,7 +302,7 @@ public class GUI extends JFrame implements ActionListener {
                 processInteraction(myPlayer, targetX, targetY);
 
                 Timestamp ts = Timestamp.getInstance();
-                InteractMessage interact = new InteractMessage(targetX, targetY, ts.getTimestamp());
+                InteractMessage interact = new InteractMessage(targetX, targetY, ts.incrementAndGet());
                 PlayRunner.messageAccumulator.queueMessage(new Message<>(interact));
             }
             if (keyCode == KeyEvent.VK_1) {

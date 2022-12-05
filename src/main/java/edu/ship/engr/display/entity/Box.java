@@ -25,4 +25,8 @@ public class Box extends Item {
 //            this.setPos(5, 5);
         }
     }
+
+    public boolean equals(Box box) {
+        return this.xPos == box.xPos && this.yPos == box.yPos;
+    }
 }

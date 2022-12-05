@@ -2,6 +2,7 @@ package edu.ship.engr.display.entity;
 
 import edu.ship.engr.communication.Timestamp;
 import edu.ship.engr.display.Board;
+import edu.ship.engr.display.GUI;
 import edu.ship.engr.exceptions.InvalidTargetException;
 import edu.ship.engr.messages.Message;
 import edu.ship.engr.peertopeer.PlayRunner;
@@ -36,6 +37,10 @@ public class Player {
         this.xPos = x;
         this.yPos = y;
         this.direction = direction;
+
+        if (Board.isPlayerOnWinningSpot(this)) {
+            GUI.showWinMSG();
+        }
     }
 
     public void setPosition(int x, int y) {

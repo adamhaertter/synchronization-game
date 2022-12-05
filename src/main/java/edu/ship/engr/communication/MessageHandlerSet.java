@@ -34,7 +34,19 @@ public class MessageHandlerSet
                     ), new MovementHandler()),
                     new HandlerMapping(Class.forName("edu.ship.engr.messages" +
                             ".InteractMessage"
-                    ), new InteractHandler())
+                    ), new InteractHandler()),
+                    new HandlerMapping(Class.forName("edu.ship.engr.messages" +
+                            ".BadMovementReply"
+                    ), new BadMovementHandler()),
+                    new HandlerMapping(Class.forName("edu.ship.engr.messages" +
+                            ".BadMovementReply"
+                    ), new BadMovementHandler()),
+                    new HandlerMapping(Class.forName("edu.ship.engr.messages" +
+                            ".TimestampOutOfSyncReply"
+                    ), new TimestampOutOfSyncHandler()),
+                    new HandlerMapping(Class.forName("edu.ship.engr.messages" +
+                            ".BadInteractReply"
+                    ), new BadInteractHandler())
             };
 
 

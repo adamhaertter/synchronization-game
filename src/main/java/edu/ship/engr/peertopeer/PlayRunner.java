@@ -18,7 +18,7 @@ public class PlayRunner
     public static MessageAccumulator messageAccumulator  =
         new MessageAccumulator();
 
-    public static boolean IS_HOST;
+    public static boolean IS_HOST = true;
 
     public static void main(String[] args)
             throws IOException, ClassNotFoundException

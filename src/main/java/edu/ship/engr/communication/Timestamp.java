@@ -23,4 +23,12 @@ public class Timestamp {
     public void increment() {
         timestamp++;
     }
+
+    public int incrementAndGet() {
+        return ++timestamp;
+    }
+
+    public void setTimestamp(int timestamp) {
+        this.timestamp = timestamp;
+    }
 }
