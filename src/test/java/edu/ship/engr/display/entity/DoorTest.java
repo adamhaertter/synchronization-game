@@ -14,7 +14,7 @@ public class DoorTest {
      * Tests that the door opens properly upon interacting with the lever
      * in the first room
      */
-    @org.junit.Test
+    @Test
     public void testOpenDoorWithLever() {
         Board board = Board.getInstance();
         Lever lever = (Lever) board.getItemAt(24, 6);
@@ -42,11 +42,11 @@ public class DoorTest {
         Board board = Board.getInstance();
         PressurePlate pressure1 = (PressurePlate) board.getItemAt(35, 18);
         PressurePlate pressure2 = (PressurePlate) board.getItemAt(47, 18);
-        Door door = (Door) board.getItemAt(30, 20);
-        Box box = (Box) board.getItemAt(41, 18);
+        Door door = (Door) board.getItemAt(24, 20);
+        Box box = (Box) board.getItemAt(41, 21);
         Player player = board.getMyPlayer();
 
-        player.setPosition(40, 18);
+        player.setPosition(40, 21);
         box.interact(player);
 
         // door should start as false
@@ -62,13 +62,13 @@ public class DoorTest {
         }
 
         // placing player on pressure plate
-        player.setPosition(35, 18);
+        player.setPosition(34, 18);
+        player.move(35,18, Direction.Right);
 
         // both pressure plates should be true, and the door should be open
         assertTrue(pressure1.getState());
         assertTrue(pressure2.getState());
-        assertTrue(door.getState());
-
+        assertTrue(door.isUnlocked());
     }
 }
 
