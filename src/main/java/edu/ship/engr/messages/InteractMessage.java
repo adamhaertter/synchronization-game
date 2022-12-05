@@ -1,7 +1,5 @@
 package edu.ship.engr.messages;
 
-import edu.ship.engr.display.entity.Item;
-
 import java.util.LinkedHashMap;
 
 public class InteractMessage {

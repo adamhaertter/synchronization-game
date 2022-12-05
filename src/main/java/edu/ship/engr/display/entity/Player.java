@@ -1,15 +1,9 @@
 package edu.ship.engr.display.entity;
 
-import edu.ship.engr.communication.Timestamp;
 import edu.ship.engr.display.Board;
 import edu.ship.engr.display.GUI;
 import edu.ship.engr.exceptions.InvalidTargetException;
-import edu.ship.engr.messages.Message;
-import edu.ship.engr.peertopeer.PlayRunner;
 import edu.ship.engr.enums.Direction;
-import edu.ship.engr.messages.MovementMessage;
-
-import java.util.ArrayList;
 
 public class Player {
     private int xPos;

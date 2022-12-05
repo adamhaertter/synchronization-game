@@ -123,23 +123,6 @@ public class GUI extends JFrame implements ActionListener {
         repaint();
     }
 
-//	private void calcMoveForPlayer(Player player) {
-//		if (board.isSteppable(player.getNextX(), player.getNextY()))
-//		{
-////			player.move();
-//
-//			Item x = board.getItem(player.getX(), player.getY());
-//			if (x != null)
-//			{
-//				player.addToInventory(x);
-//			}
-//			//TODO get the item off the board
-//			board.markVisibleAround(player.getX(), player.getY());
-//		} else {
-////			player.remainInPlace();
-//		}
-//	}
-
     private void putPlayersOnTheScreen(StringBuffer boardString) {
         // Player one
         int positionInString = board.calculateBoardStringPosition(playerOne.getX(), playerOne.getY());
@@ -257,28 +240,24 @@ public class GUI extends JFrame implements ActionListener {
                 int oldX = playerOne.getX();
                 int oldY = playerOne.getY();
                 if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_A) {
-//				myPlayer.calculateUpcomingMove(Direction.Left);
                     if (board.isSteppable(myPlayer.getX() - 1, myPlayer.getY())) {
                         myPlayer.move(myPlayer.getX() - 1, myPlayer.getY(), Direction.Left);
                         printPlayerMove(myPlayer);
                     }
                 }
                 if (keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_D) {
-//				myPlayer.calculateUpcomingMove(Direction.Right);
                     if (board.isSteppable(myPlayer.getX() + 1, myPlayer.getY())) {
                         myPlayer.move(myPlayer.getX() + 1, myPlayer.getY(), Direction.Right);
                         printPlayerMove(myPlayer);
                     }
                 }
                 if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W) {
-//				myPlayer.calculateUpcomingMove(Direction.Up);
                     if (board.isSteppable(myPlayer.getX(), myPlayer.getY() - 1)) {
                         myPlayer.move(myPlayer.getX(), myPlayer.getY() - 1, Direction.Up);
                         printPlayerMove(myPlayer);
                     }
                 }
                 if (keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S) {
-//				myPlayer.calculateUpcomingMove(Direction.Down);
                     if (board.isSteppable(myPlayer.getX(), myPlayer.getY() + 1)) {
                         myPlayer.move(myPlayer.getX(), myPlayer.getY() + 1, Direction.Down);
                         printPlayerMove(myPlayer);
@@ -304,9 +283,6 @@ public class GUI extends JFrame implements ActionListener {
                 Timestamp ts = Timestamp.getInstance();
                 InteractMessage interact = new InteractMessage(targetX, targetY, ts.incrementAndGet());
                 PlayRunner.messageAccumulator.queueMessage(new Message<>(interact));
-            }
-            if (keyCode == KeyEvent.VK_1) {
-                showWinMSG();
             }
         }
 

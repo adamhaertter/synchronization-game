@@ -2,10 +2,8 @@ package edu.ship.engr.communication.handlers;
 
 import edu.ship.engr.communication.Timestamp;
 import edu.ship.engr.display.Board;
-import edu.ship.engr.enums.Direction;
 import edu.ship.engr.messages.BadMovementReply;
 import edu.ship.engr.messages.Message;
-import edu.ship.engr.messages.MovementMessage;
 
 import java.util.LinkedHashMap;
 

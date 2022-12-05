@@ -1,4 +1,4 @@
 package edu.ship.engr.display;
 
-public class TestBoard {
+public class BoardTest {
 }

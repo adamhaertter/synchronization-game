@@ -1,6 +1,5 @@
 package edu.ship.engr.messages;
 
-import edu.ship.engr.display.entity.Player;
 import edu.ship.engr.enums.Direction;
 
 import java.util.LinkedHashMap;

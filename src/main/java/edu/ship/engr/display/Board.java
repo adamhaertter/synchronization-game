@@ -1,15 +1,14 @@
 package edu.ship.engr.display;
 
-import edu.ship.engr.communication.Timestamp;
 import edu.ship.engr.display.entity.*;
 import edu.ship.engr.peertopeer.PlayRunner;
 
 import java.util.ArrayList;
 
 public class Board {
+
     // Singleton class for keeping track of synchronization through a message counter
     private static Board instance = null;
-
 
     public static Board getInstance() {
         if (instance == null) {
@@ -140,10 +139,6 @@ public class Board {
                 && boardArray[x][y] != '|' && boardArray[x][y] != 'P' && boardArray[x][y] != 'D';
     }
 
-    public void markVisibleAround(int x, int y) {
-
-    }
-
     public int calculateBoardStringPosition(int x, int y) {
         return y * BOARD_WIDTH + x;
     }
@@ -199,23 +194,6 @@ public class Board {
         }
     }
 
-    public Item getItem(int x, int y) {
-        Item item;
-        switch(boardArray[x][y]) {
-            case('*'):
-                //lever
-            case('D'):
-                //door
-            case('0'):
-                // pressure plate
-            case('B'):
-                // box
-            default:
-                item = null;
-        }
-        return item;
-    }
-
     public Player getPlayerOne() {
         return playerOne;
     }
@@ -232,7 +210,6 @@ public class Board {
             for(int j = 0; j < BOARD_WIDTH; j++) {
                 print.append(boardArray[j][i]);
             }
-//            print.append('\n');
         }
 
         return print.toString();

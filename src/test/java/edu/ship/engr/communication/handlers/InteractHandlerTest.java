@@ -8,7 +8,6 @@ import edu.ship.engr.display.entity.Item;
 import edu.ship.engr.display.entity.Player;
 import edu.ship.engr.enums.Direction;
 import edu.ship.engr.messages.BadInteractReply;
-import edu.ship.engr.messages.BadMovementReply;
 import edu.ship.engr.messages.InteractMessage;
 import edu.ship.engr.messages.Message;
 import edu.ship.engr.peertopeer.PlayRunner;
