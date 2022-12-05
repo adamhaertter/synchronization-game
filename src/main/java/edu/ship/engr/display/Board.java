@@ -20,11 +20,11 @@ public class Board {
     public static final int BOARD_WIDTH = 54;
     public static final int BOARD_HEIGHT = 27;
     char[][] boardArray = new char[BOARD_WIDTH][BOARD_HEIGHT];
-    private Player playerOne;
-    private Player playerTwo;
+    private final Player playerOne;
+    private final Player playerTwo;
     public Player myPlayer;
     public Player otherPlayer;
-    private ArrayList<Item> items = new ArrayList<>();
+    private final ArrayList<Item> items = new ArrayList<>();
 
     /**
      * - and | are walls
@@ -136,7 +136,8 @@ public class Board {
     }
     public boolean canPlaceBox(int x, int y) {
         return x >= 0 && x < BOARD_WIDTH && y >= 0 && y < BOARD_HEIGHT && boardArray[x][y] != '-'
-                && boardArray[x][y] != '|' && boardArray[x][y] != 'P' && boardArray[x][y] != 'D';
+                && boardArray[x][y] != '|' && boardArray[x][y] != 'P' && boardArray[x][y] != 'D'
+                && boardArray[x][y] != '*' && boardArray[x][y] != '#';
     }
 
     public int calculateBoardStringPosition(int x, int y) {
@@ -253,4 +254,17 @@ public class Board {
     }
 
     public void addItem(Item i) { items.add(i); }
+
+    public ArrayList<Item> getItems() { return items; }
+
+    // function to get all the items of a certain type
+    public ArrayList<Item> getItemsOfType(Class type) {
+        ArrayList<Item> itemsOfType = new ArrayList<>();
+        for (Item item : items) {
+            if (item.getClass() == type) {
+                itemsOfType.add(item);
+            }
+        }
+        return itemsOfType;
+    }
 }
