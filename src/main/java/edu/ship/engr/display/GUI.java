@@ -162,7 +162,8 @@ public class GUI extends JFrame implements ActionListener {
         java.awt.Image image = icon.getImage();
         java.awt.Image newimg = image.getScaledInstance(140, 140, java.awt.Image.SCALE_SMOOTH);
         icon = new ImageIcon(newimg);
-        JOptionPane.showMessageDialog(null, "Congratulations! You win!", "Victory!", JOptionPane.QUESTION_MESSAGE, icon);
+        JOptionPane.showMessageDialog(null, "Congratulations! You win!", "Victory!",
+                JOptionPane.QUESTION_MESSAGE, icon);
     }
 
     // function to sout that the player has moved and their new location

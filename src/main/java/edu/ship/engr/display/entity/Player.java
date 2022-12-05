@@ -10,6 +10,7 @@ public class Player {
     private int yPos;
     private Direction direction = Direction.Right;
     private Box currentBox = null;
+    private boolean isMoveLocked = false;
 
     public Player(int startingX, int startingY) {
         yPos = startingY;
@@ -17,6 +18,7 @@ public class Player {
     }
 
     public void move(int x, int y, Direction direction) {
+        if(isMoveLocked) return;
         Board board = Board.getInstance();
         Item itemAtNewPosition = board.getItemAt(x, y);
         if (itemAtNewPosition != null) {
@@ -34,6 +36,7 @@ public class Player {
 
         if (Board.isPlayerOnWinningSpot(this)) {
             GUI.showWinMSG();
+            isMoveLocked = true;
         }
     }
 
